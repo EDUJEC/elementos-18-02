@@ -5,7 +5,6 @@
  */
 package unitec.org.elementos;
 
-import java.io.Serializable;
 import org.springframework.data.repository.CrudRepository;
 
 /**

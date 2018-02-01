@@ -10,12 +10,15 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -53,20 +56,27 @@ public class MiUI extends UI {
         setContent(layout);
         
         
-                   // Have some data
-List<Mensajitos> people = Arrays.asList(
-    new Mensajitos("Nicolaus Copernicus", "1543}"),
-    new Mensajitos("Galileo Galilei", "1564"),
-    new Mensajitos("Johannes Kepler", "1571"));
+    // Have some data
+        List<Mensajitos> people = Arrays.asList(
+            new Mensajitos("Nicolaus Copernicus", "1543"),
+            new Mensajitos("Galileo Galilei", "1564"),
+            new Mensajitos("Johannes Kepler", "1571"));
 
-// Create a grid bound to the list
-Grid<Mensajitos> grid = new Grid<>();
-grid.setItems(people);
-grid.addColumn(Mensajitos::getTitulo).setCaption("Name");
-grid.addColumn(Mensajitos::getCuerpo).setCaption("Year of birth");
-
-layout.addComponent(grid);
+    // Create a grid bound to the list
+        Grid<Mensajitos> grid = new Grid<>();
+        grid.setItems(people);
+        grid.addColumn(Mensajitos::getTitulo).setCaption("Titulo");
+        grid.addColumn(Mensajitos::getCuerpo).setCaption("Cuerpo");
 
 
+   // switch to multiselect mode
+        grid.setSelectionMode(SelectionMode.MULTI);
+
+        grid.addSelectionListener(event -> {
+            Set<Mensajitos> selected = event.getAllSelectedItems();
+            Notification.show(selected.size() + " registros seleccionados");
+        });
+
+    layout.addComponent(grid);
     }
 }
